@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import hashlib
-import json
 from datetime import datetime
 from typing import Any
 
@@ -36,6 +35,6 @@ class AuditEvent(BaseModel):
         canonical = self.model_dump_json(exclude={"previous_hash"})
         return hashlib.sha256(canonical.encode()).hexdigest()
 
-    def is_chain_valid(self, previous_event: "AuditEvent") -> bool:
+    def is_chain_valid(self, previous_event: AuditEvent) -> bool:
         """Verify this event correctly chains from the previous one."""
         return self.previous_hash == previous_event.compute_hash()

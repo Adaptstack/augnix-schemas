@@ -81,7 +81,6 @@ class AgentGovernance(BaseModel):
 class AgentManifest(BaseModel):
     model_config = ConfigDict(frozen=True)
 
-    tenant_id: str
     identity: AgentIdentity
     behavior: AgentBehavior
     execution: AgentExecution

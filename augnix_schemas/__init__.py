@@ -8,6 +8,7 @@ from .agent import (
     AgentIdentity,
     AgentManifest,
     AgentReleaseState,
+    GuardrailsConfig,  # Correction 1.C1
 )
 from .audit import AuditEvent
 from .compat import validate_no_breaking_change
@@ -62,6 +63,7 @@ __all__ = [
     "AgentIdentity",
     "AgentManifest",
     "AgentReleaseState",
+    "GuardrailsConfig",  # Correction 1.C1
     # audit
     "AuditEvent",
     # compat

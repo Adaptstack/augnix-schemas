@@ -8,6 +8,7 @@ from .agent import (
     AgentIdentity,
     AgentManifest,
     AgentReleaseState,
+    CostGovernance,    # Correction 1.C2
     GuardrailsConfig,  # Correction 1.C1
 )
 from .audit import AuditEvent
@@ -63,6 +64,7 @@ __all__ = [
     "AgentIdentity",
     "AgentManifest",
     "AgentReleaseState",
+    "CostGovernance",    # Correction 1.C2
     "GuardrailsConfig",  # Correction 1.C1
     # audit
     "AuditEvent",

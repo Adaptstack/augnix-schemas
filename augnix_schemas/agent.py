@@ -61,6 +61,44 @@ class AgentExecution(BaseModel):
     retry_policy: dict[str, Any] | None = None
     tool_selection_strategy: str = "auto"
     concurrency_limit: int = 1
+    # ── Correction 1.C2 — NEW optional field (fully backward-compatible) ──────
+    cost_governance: CostGovernance | None = None  # None = platform-level defaults apply
+    schema_version: str = "1.0.0"
+
+
+# ── Correction 1.C2 — CostGovernance (April 2026) ────────────────────────────
+# Added to AgentExecution as an optional field so operators can set per-agent
+# token, tool-call, and spend limits.  Consumed by runtime-service (MVP 4) to
+# enforce limits before each model call.  None = platform-level defaults apply.
+class CostGovernance(BaseModel):
+    """Per-agent cost and resource limits consumed by runtime-service (MVP 4).
+
+    All fields are optional with generous defaults so existing agents work
+    without any migration.
+
+    over_budget_action —
+      "block":   reject new sessions / turns when limit exceeded
+      "degrade": switch to a cheaper model tier (model_routing fallback)
+      "alert":   log + notify but continue (non-blocking)
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    # ── Token limits ──────────────────────────────────────────────────────────
+    max_tokens_per_turn: int = 4_000      # input + output tokens per single turn
+    max_tokens_per_session: int = 16_000  # cumulative tokens across all turns
+
+    # ── Tool / retrieval limits ───────────────────────────────────────────────
+    max_tool_calls_per_session: int = 20   # total tool invocations in one session
+    max_retrieval_chunks: int = 10         # chunks returned per retrieval call
+
+    # ── Run / spend limits ────────────────────────────────────────────────────
+    daily_run_limit: int = 1_000          # max sessions started per calendar day
+    monthly_budget_usd: float = 100.0    # hard spend ceiling (USD)
+
+    # ── Action when any limit is breached ─────────────────────────────────────
+    over_budget_action: str = "block"    # block|degrade|alert
+
     schema_version: str = "1.0.0"
 
 

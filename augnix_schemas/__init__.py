@@ -13,6 +13,9 @@ from .agent import (
 )
 from .audit import AuditEvent
 from .compat import validate_no_breaking_change
+from .guardrail import GuardrailDecision, GuardrailViolationType  # Correction 1.C3
+from .pii import PIIDetectionResult, PIIEntity, PIIEntityType     # Correction 1.C3
+from .template import AgentTemplate, TemplateStatus, TemplateVisibility  # Correction 1.C3
 from .disposition import Disposition, DispositionCriticality
 from .events import (
     ALL_EVENT_TYPES,
@@ -70,6 +73,17 @@ __all__ = [
     "AuditEvent",
     # compat
     "validate_no_breaking_change",
+    # guardrail — Correction 1.C3
+    "GuardrailDecision",
+    "GuardrailViolationType",
+    # pii — Correction 1.C3
+    "PIIDetectionResult",
+    "PIIEntity",
+    "PIIEntityType",
+    # template — Correction 1.C3
+    "AgentTemplate",
+    "TemplateStatus",
+    "TemplateVisibility",
     # disposition
     "Disposition",
     "DispositionCriticality",

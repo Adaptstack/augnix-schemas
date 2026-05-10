@@ -154,6 +154,65 @@ class AgentGovernance(BaseModel):
     schema_version: str = "1.0.0"
 
 
+# ── Builder-facing config schemas (Correction 2.C5) ───────────────────────────
+# These are the lightweight, user-supplied 4-layer dicts that the builder
+# wizard sends when creating/editing an agent.  They intentionally omit
+# platform-injected fields (agent_id, tenant_id, created_at, created_by)
+# which are added by the service layer, not the user.
+#
+# The schema-registry bootstraps these under the names
+# "AgentIdentityConfig", "AgentBehaviorConfig", "AgentExecutionConfig",
+# "AgentGovernanceConfig".  agent-service's _LAYER_SCHEMAS points to these
+# names so that validate_version() passes on any well-formed builder draft.
+
+
+class AgentIdentityConfig(BaseModel):
+    """User-supplied identity layer config (builder wizard)."""
+
+    name: str
+    type: Literal["chat", "voice", "async", "webhook"]
+    description: str | None = None
+    language: str | None = None
+    role: str | None = None
+    schema_version: str = "1.0.0"
+
+
+class AgentBehaviorConfig(BaseModel):
+    """User-supplied behavior layer config (builder wizard)."""
+
+    instructions: str
+    goals: list[str] = []
+    # String safety profile accepted (LOW | MEDIUM | HIGH | STANDARD)
+    safety_profile: str = "STANDARD"
+    tone: str | None = None
+    restricted_topics: list[str] = []
+    schema_version: str = "1.0.0"
+
+
+class AgentExecutionConfig(BaseModel):
+    """User-supplied execution layer config (builder wizard)."""
+
+    primary_model: str
+    fallback_model: str | None = None
+    channel: str | None = None
+    memory: dict[str, Any] | None = None
+    tools: list[str] = []
+    schema_version: str = "1.0.0"
+
+
+class AgentGovernanceConfig(BaseModel):
+    """User-supplied governance layer config (builder wizard)."""
+
+    # Accepts both "passthrough" (UI) and the canonical set
+    pii_mode: str = "mask"
+    pii_types: list[str] = []
+    # Accepts STANDARD | HIGH | CRITICAL (UI) as well as low | medium | high
+    audit_class: str = "STANDARD"
+    guardrails: dict[str, Any] | None = None
+    compliance_tags: list[str] = []
+    schema_version: str = "1.0.0"
+
+
 class AgentManifest(BaseModel):
     model_config = ConfigDict(frozen=True)
 

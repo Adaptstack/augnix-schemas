@@ -2,10 +2,14 @@
 
 from .agent import (
     AgentBehavior,
+    AgentBehaviorConfig,    # Correction 2.C5 — builder-facing config schemas
     AgentConfig,
     AgentExecution,
+    AgentExecutionConfig,   # Correction 2.C5
     AgentGovernance,
+    AgentGovernanceConfig,  # Correction 2.C5
     AgentIdentity,
+    AgentIdentityConfig,    # Correction 2.C5
     AgentManifest,
     AgentReleaseState,
     CostGovernance,    # Correction 1.C2
@@ -61,10 +65,14 @@ from .tool import ToolCall, ToolDefinition, ToolResult, ToolSideEffectClass, Too
 __all__ = [
     # agent
     "AgentBehavior",
+    "AgentBehaviorConfig",    # Correction 2.C5
     "AgentConfig",
     "AgentExecution",
+    "AgentExecutionConfig",   # Correction 2.C5
     "AgentGovernance",
+    "AgentGovernanceConfig",  # Correction 2.C5
     "AgentIdentity",
+    "AgentIdentityConfig",    # Correction 2.C5
     "AgentManifest",
     "AgentReleaseState",
     "CostGovernance",    # Correction 1.C2
